@@ -1,0 +1,40 @@
+<ion-view view-title="Facturas">
+	<ion-content>
+	
+		<div class="card" ng-repeat="n in [].constructor(3) track by $index" ng-click="modal.show()">
+			<a class="item item-text-wrap">
+				<h3>Factura dummy</h3>
+			</a>
+		</div>
+
+	</ion-content>
+</ion-view>
+
+<script id="templates/modal_bill.html" type="text/ng-template">
+	<ion-modal-view>
+	<ion-header-bar class="bar bar-header bar-balanced">
+		<h1 class="title">Factura</h1>
+		<button class="button button-clear button-primary" ng-click="modal.hide()">Cerrar</button>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<ion-list>
+
+			<ion-item class="item-divider">
+				<h3>Elementos</h3>
+			</ion-item>
+			<ion-item class="item-icon-right" ng-repeat="n in [].constructor(2) track by $index">
+
+				<h3>Dummy Item</h3>
+				<p>$250</p>
+				<i class="icon ion-minus-circled"></i>
+			</ion-item>
+			<p style="text-align: right;">Total: $500</p>
+				
+			<div class="button-bar">
+				<button class="button button-full button-clear button-assertive" ng-click="acept()">Cancelar</button>
+				<button class="button button-full button-clear button-positive" ng-click="acept()">Gastar</button>
+			</div>
+		</ion-list>
+	</ion-content>
+	</ion-modal-view>
+</script>

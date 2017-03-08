@@ -23,8 +23,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
+	$ionicConfigProvider.tabs.position('bottom');
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -58,6 +59,51 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           controller: 'RestCtrl'
         }
       }
+    })
+
+	.state('tab.rest.mis', {
+        url: '/mis',
+        views: {
+            'tab-rest-mis': {
+                templateUrl: 'templates/tab-rest-mis.html',
+                controller: 'MisRestCtrl'
+            }
+        },
+        resolve: {
+            mode: function() {
+                return 'mis';
+            }
+        }
+    })
+
+	.state('tab.rest.all', {
+        url: '/all',
+        views: {
+            'tab-rest-all': {
+                templateUrl: 'templates/tab-rest-all.html',
+                controller: 'AllRestCtrl'
+            }
+        },
+        resolve: {
+            mode: function() {
+                return 'all';
+            }
+        }
+    })
+
+	.state('tab.rest.bills', {
+        url: '/bills',
+        views: {
+            'tab-rest-bills': {
+                templateUrl: 'templates/tab-rest-bills.html',
+                controller: 'BillsRestCtrl'
+            }
+        },
+        resolve: {
+            mode: function() {
+                return 'bills';
+            }
+        }
     })
 
   .state('tab.chats', {
