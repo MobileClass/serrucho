@@ -1,7 +1,13 @@
 <ion-view view-title="Mis Restaurantes">
 	<ion-content>
 	
-		<h2>Hello</h2>
+		<div class="card" ng-repeat="n in [].constructor(3) track by $index">
+			<a class="item item-avatar item-text-wrap">
+				<img src="img/thumb.png" alt="Dummy" style="border-radius: 0px;">
+				<h3>Dummy</h3>
+				Este es un restaurante dummy de prueba.
+			</a>
+		</div>
 
 	</ion-content>
 </ion-view>
