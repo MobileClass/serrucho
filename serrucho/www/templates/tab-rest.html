@@ -1,9 +1,15 @@
-<ion-view view-title="Mis Restaurantes">
-  <ion-content class="padding">
-    <h2>Welcome to Ionic</h2>
-
-    <p>
-      To edit the content of each tab, edit the corresponding template file in <code>www/templates/</code>. This template is <code>www/templates/tab-dash.html</code>
-    </p>
-  </ion-content>
-</ion-view>
+<!--<ion-tabs class="tabs-messages tabs-light tabs-top tabs-icon-top has-tabs-top">-->
+<ion-tabs class="tabs-striped tabs-top tabs-color-balanced tabs-icon-top has-tabs-top">
+	
+	<ion-tab title="Mis Restaurantes" icon-on="ion-star" icon-off="ion-star" href="#/tab/rest/mis">
+		<ion-nav-view name="tab-rest-mis"></ion-nav-view>
+	</ion-tab>
+	
+	<ion-tab title="Todos" icon-on="ion-ios-paperplane" icon-off="ion-ios-paperplane-outline" href="#/tab/rest/all">
+		<ion-nav-view name="tab-rest-all"></ion-nav-view>
+	</ion-tab>
+	
+	<ion-tab title="Facturas" icon-on="ion-ios-flag" icon-off="ion-ios-flag-outline" href="#/tab/rest/bills">
+		<ion-nav-view name="tab-rest-bills"></ion-nav-view>
+	</ion-tab>
+</ion-tabs>

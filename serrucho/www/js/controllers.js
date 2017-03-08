@@ -29,4 +29,12 @@ angular.module('starter.controllers', [])
 
 .controller('RestCtrl', function($scope) {})
 
-.controller('PresCtrl', function($scope) {});
+.controller('MisRestCtrl', function($scope) {})
+
+.controller('AllRestCtrl', function($scope) {})
+
+.controller('BillsRestCtrl', function($scope) {})
+
+.controller('PresCtrl', function($scope) {})
+
+;

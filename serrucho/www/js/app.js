@@ -60,6 +60,51 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
 
+	.state('tab.rest.mis', {
+        url: '/mis',
+        views: {
+            'tab-rest-mis': {
+                templateUrl: 'templates/tab-rest-mis.html',
+                controller: 'MisRestCtrl'
+            }
+        },
+        resolve: {
+            mode: function() {
+                return 'mis';
+            }
+        }
+    })
+
+	.state('tab.rest.all', {
+        url: '/all',
+        views: {
+            'tab-rest-all': {
+                templateUrl: 'templates/tab-rest-all.html',
+                controller: 'AllRestCtrl'
+            }
+        },
+        resolve: {
+            mode: function() {
+                return 'all';
+            }
+        }
+    })
+
+	.state('tab.rest.bills', {
+        url: '/bills',
+        views: {
+            'tab-rest-bills': {
+                templateUrl: 'templates/tab-rest-bills.html',
+                controller: 'BillsRestCtrl'
+            }
+        },
+        resolve: {
+            mode: function() {
+                return 'bills';
+            }
+        }
+    })
+
   .state('tab.chats', {
       url: '/chats',
       views: {
