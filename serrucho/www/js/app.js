@@ -50,6 +50,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
+  .state('tab.rest', {
+      url: '/rest',
+      views: {
+        'tab-rest': {
+          templateUrl: 'templates/tab-rest.html',
+          controller: 'RestCtrl'
+        }
+      }
+    })
+
   .state('tab.chats', {
       url: '/chats',
       views: {
@@ -65,6 +75,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         'tab-chats': {
           templateUrl: 'templates/chat-detail.html',
           controller: 'ChatDetailCtrl'
+        }
+      }
+    })
+
+	.state('tab.pres', {
+      url: '/pres',
+      views: {
+        'tab-pres': {
+          templateUrl: 'templates/tab-pres.html',
+          controller: 'PresCtrl'
         }
       }
     })

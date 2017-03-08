@@ -25,4 +25,8 @@ angular.module('starter.controllers', [])
   $scope.settings = {
     enableFriends: true
   };
-});
+})
+
+.controller('RestCtrl', function($scope) {})
+
+.controller('PresCtrl', function($scope) {});
