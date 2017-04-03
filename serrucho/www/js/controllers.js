@@ -2,24 +2,56 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation) {
-    var options = {timeout: 10000, enableHighAccuracy: true};
+  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicPlatform, $ionicLoading, $ionicPopup) {
+    var options = {timeout: 20000, enableHighAccuracy: true, maximumAge: 0};
 
-    $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+	$ionicLoading.show({
+		template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Cargando ubicación!'
+	});
+	console.log('Init');
 
-      var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	ionic.Platform.ready(function(){
 
-      var mapOptions = {
-        center: latLng,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
+		$cordovaGeolocation.getCurrentPosition(options).then(function(position){
+			console.log('enter geolocation');
+			var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+			console.log('Before options');
+			var mapOptions = {
+				center: latLng,
+				zoom: 15,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+			console.log('After options');
+			$scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+			console.log('Map: '+$scope.map);
 
-      $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+			$ionicLoading.hide();
 
-    }, function(error){
-      console.log("Could not get location");
-    });
+		}, function(error){
+			console.log(error);
+			$ionicLoading.hide();
+			var content;
+			switch (error.code) {
+				case error.PERMISSION_DENIED:
+					content = "User denied the request for Geolocation."
+					break;
+				case error.POSITION_UNAVAILABLE:
+					content = "Location information is unavailable."
+					break;
+				case error.TIMEOUT:
+					content = "The request to get user location timed out."
+					break;
+				case error.UNKNOWN_ERROR:
+					content = "An unknown error occurred."
+					break;
+			}
+			$ionicPopup.confirm({
+				title: "GPS Error",
+				cssClass: "background-color: #4BAF33",
+				content: content
+			});
+		})
+	});
   })
 
 // .controller('ChatsCtrl', function($scope, Chats) {
