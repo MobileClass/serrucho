@@ -108,7 +108,7 @@ angular.module('starter.controllers', [])
         var pizzareli = '<div id="content">'+
           '<div id="siteNotice">'+
           '</div>'+
-          '<h1 id="firstHeading" class="firstHeading">Pzzareli</h1>'+
+          '<h1 id="firstHeading" class="firstHeading">Pizzareli</h1>'+
           '<div id="bodyContent">'+
           '<p><b>Pizzarelli</b>, en cuanto a pizza se refiere la mejor eleccion ' +
           'un negocio dominicano con el mas puro sabor italiano '+
@@ -215,7 +215,7 @@ angular.module('starter.controllers', [])
 //   // when they are recreated or on app start, instead of every page change.
 //   // To listen for when this page is active (for example, to refresh data),
 //   // listen for the $ionicView.enter event:
-  
+
 //   $scope.$on('$ionicView.enter', function(e) {
 //   });
 
