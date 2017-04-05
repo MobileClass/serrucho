@@ -269,14 +269,17 @@ angular.module('starter.controllers', [])
 
 
 .controller('AllRestCtrl', function($scope, $ionicModal, allRest) {
-	console.log(allRest.all());
+	// console.log(allRest.all());
+	$scope.allRests = allRest.getItems();
+	$scope.restItems = [];
 	$ionicModal.fromTemplateUrl('templates/modal_menu.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
     $scope.modal = modal;
   });
-  $scope.openModal = function() {
+  $scope.openModal = function(id) {
+	$scope.restItems = allRest.getItem(id);
     $scope.modal.show();
   };
   $scope.closeModal = function() {

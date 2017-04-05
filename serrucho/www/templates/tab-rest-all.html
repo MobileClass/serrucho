@@ -1,11 +1,11 @@
 <ion-view view-title="Todos">
 	<ion-content>
 
-		<div class="card" ng-repeat="n in [].constructor(2) track by $index" ng-click="modal.show()">
+		<div class="card" ng-repeat="n in allRests track by $index" ng-click="modal.openModal(n.ID)">
 			<a class="item item-avatar item-text-wrap">
 				<img src="img/thumb.png" alt="Dummy" style="border-radius: 0px;">
-				<h3>Dummy</h3>
-				Este es un restaurante dummy de prueba.
+				<h3>n.Name</h3>
+				{{ n.Min }} - {{ n.Max }}
 			</a>
 		</div>
 
@@ -16,22 +16,19 @@
 	<ion-modal-view>
 	<ion-header-bar class="bar bar-header bar-balanced">
 		<h1 class="title">Menu</h1>
-		<button class="button button-clear button-primary" ng-click="modal.hide()">Cerrar</button>
+		<button class="button button-clear button-primary" ng-click="modal.closeModal()">Cerrar</button>
 	</ion-header-bar>
 	<ion-content class="padding">
 
 		<ion-list>
-			<h2>Restaurante Fulvio</h2>
-
-			<div ng-repeat="n in [].constructor(2) track by $index">
 				<ion-item class="item-divider">
-					<h3>Entradas</h3>
+					<h2>{{ restItems[0].RestaurantID }}</h2>
 				</ion-item>
-				<ion-item class="item-icon-right" ng-repeat="n in [].constructor(3) track by $index">
+				<ion-item class="item-icon-right" ng-repeat="n in restItems track by $index">
 
-					<h3>Restrurante Fulvio</h3>
-					<p>$250</p>
-					<i class="icon ion-plus"></i>
+					<h3>{{n.Name}}</h3>
+					<p>{{n.Price}}</p>
+					<i class="icon ion-plus" ng-click="add()"></i>
 				</ion-item>
 
 			</div>
