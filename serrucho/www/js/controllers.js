@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, offers) {})
+.controller('DashCtrl', function($scope) {})
 
 .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicPlatform, $ionicLoading, $ionicPopup) {
 	var options = {timeout: 20000, enableHighAccuracy: true, maximumAge: 0};
@@ -237,7 +237,7 @@ angular.module('starter.controllers', [])
 
 .controller('RestCtrl', function($scope) {})
 
-.controller('MisRestCtrl', function($scope, $ionicModal, myRest) {
+.controller('MisRestCtrl', function($scope, $ionicModal) {
 	$ionicModal.fromTemplateUrl('templates/modal_menu.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -269,8 +269,7 @@ angular.module('starter.controllers', [])
 
 
 .controller('AllRestCtrl', function($scope, $ionicModal, allRest) {
-	// console.log(allRest.all());
-	$scope.allRests = allRest.getItems();
+	$scope.allRests = [];
 	$scope.restItems = [];
 	$ionicModal.fromTemplateUrl('templates/modal_menu.html', {
     scope: $scope,
@@ -279,7 +278,7 @@ angular.module('starter.controllers', [])
     $scope.modal = modal;
   });
   $scope.openModal = function(id) {
-	$scope.restItems = allRest.getItem(id);
+	$scope.restItems = [];
     $scope.modal.show();
   };
   $scope.closeModal = function() {
@@ -304,7 +303,7 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('BillsRestCtrl', function($scope, $ionicModal, bills) {
+.controller('BillsRestCtrl', function($scope, $ionicModal) {
 	$ionicModal.fromTemplateUrl('templates/modal_bill.html', {
     scope: $scope,
     animation: 'slide-in-up'
