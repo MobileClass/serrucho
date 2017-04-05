@@ -1,7 +1,7 @@
 <ion-view view-title="Mis Restaurantes">
 	<ion-content>
 
-		<div class="card" ng-repeat="n in [].constructor(3) track by $index" ng-click="modal.show()">
+		<div class="card"  ng-click="modal.show()">
 			<a class="item item-avatar item-text-wrap">
 				<img src="img/thumb.png" alt="Dummy" style="border-radius: 0px;">
 				<h3>Dummy</h3>
@@ -21,20 +21,35 @@
 	<ion-content class="padding">
 
 		<ion-list>
-			<h2>Restaurante Jose</h2>
+			<h2>Pizzarelli</h2>
 
-			<div ng-repeat="n in [].constructor(2) track by $index">
+			<div>
 				<ion-item class="item-divider">
-					<h3>Entradas</h3>
+					<h3>Pizzas</h3>
 				</ion-item>
-				<ion-item class="item-icon-right" ng-repeat="n in [].constructor(3) track by $index">
+				<ion-item class="item-icon-right" >
 
-					<h3>Dummy Item</h3>
+					<h3>Pizza personal</h3>
 					<p>$250</p>
 					<i class="icon ion-plus"></i>
 				</ion-item>
 
-			</div>
+        <ion-item class="item-icon-right" >
+
+          <h3>Pizza mediana</h3>
+          <p>$500</p>
+          <i class="icon ion-plus"></i>
+        </ion-item>
+
+        <ion-item class="item-icon-right" >
+
+          <h3>Pizza grande</h3>
+          <p>$750</p>
+          <i class="icon ion-plus"></i>
+        </ion-item>
+
+
+      </div>
 
 			<!--<button class="button button-full button-positive" ng-click="acept()">OK</button>-->
 		</ion-list>
