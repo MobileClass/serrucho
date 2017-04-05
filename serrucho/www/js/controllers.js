@@ -2,11 +2,11 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicPlatform, $ionicLoading, $ionicPopup) {
-    var options = {timeout: 20000, enableHighAccuracy: true, maximumAge: 0};
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicPlatform, $ionicLoading, $ionicPopup) {
+	var options = {timeout: 20000, enableHighAccuracy: true, maximumAge: 0};
 
 	$ionicLoading.show({
-		template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Cargando ubicación!'
+		template: '<ion-spinner icon="ripple"></ion-spinner><br/>Cargando ubicación!'
 	});
 	console.log('Init');
 
@@ -33,16 +33,16 @@ angular.module('starter.controllers', [])
 			var content;
 			switch (error.code) {
 				case error.PERMISSION_DENIED:
-					content = "User denied the request for Geolocation."
+					content = "Se ha negado la petición de usuario para Geoubicación."
 					break;
 				case error.POSITION_UNAVAILABLE:
-					content = "Location information is unavailable."
+					content = "La información de ubicación no esta disponible."
 					break;
 				case error.TIMEOUT:
-					content = "The request to get user location timed out."
+					content = "El tiempo de espera ha expirado."
 					break;
 				case error.UNKNOWN_ERROR:
-					content = "An unknown error occurred."
+					content = "A ocurrido un error desconocido."
 					break;
 			}
 			$ionicPopup.confirm({
@@ -52,26 +52,26 @@ angular.module('starter.controllers', [])
 			});
 		})
 	});
-  })
+})
 
 // .controller('ChatsCtrl', function($scope, Chats) {
 //   // With the new view caching in Ionic, Controllers are only called
 //   // when they are recreated or on app start, instead of every page change.
 //   // To listen for when this page is active (for example, to refresh data),
 //   // listen for the $ionicView.enter event:
-//   //
-//   //$scope.$on('$ionicView.enter', function(e) {
-//   //});
-//
+  
+//   $scope.$on('$ionicView.enter', function(e) {
+//   });
+
 //   $scope.chats = Chats.all();
 //   $scope.remove = function(chat) {
 //     Chats.remove(chat);
 //   };
 // })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
+// .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+//   $scope.chat = Chats.get($stateParams.chatId);
+// })
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
@@ -81,7 +81,7 @@ angular.module('starter.controllers', [])
 
 .controller('RestCtrl', function($scope) {})
 
-.controller('MisRestCtrl', function($scope, $ionicModal) {
+.controller('MisRestCtrl', function($scope, $ionicModal, myRest) {
 	$ionicModal.fromTemplateUrl('templates/modal_menu.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -112,7 +112,8 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('AllRestCtrl', function($scope, $ionicModal) {
+.controller('AllRestCtrl', function($scope, $ionicModal, allRest) {
+	console.log(allRest.all());
 	$ionicModal.fromTemplateUrl('templates/modal_menu.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -144,7 +145,7 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('BillsRestCtrl', function($scope, $ionicModal) {
+.controller('BillsRestCtrl', function($scope, $ionicModal, bills) {
 	$ionicModal.fromTemplateUrl('templates/modal_bill.html', {
     scope: $scope,
     animation: 'slide-in-up'

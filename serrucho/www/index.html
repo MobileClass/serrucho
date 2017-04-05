@@ -4,11 +4,11 @@
     <meta charset="utf-8">
 	<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <title>Serrucho</title>
 
     <link rel="manifest" href="manifest.json">
 
-    <!-- jose es cool un-comment this code to enable service worker
+    <!-- un-comment this code to enable service worker
     <script>
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('service-worker.js')
@@ -51,5 +51,10 @@
       -->
       <ion-nav-view></ion-nav-view>
 	  <script src="https://maps.google.com/maps/api/js?key=AIzaSyCdI05Y8uqfNIi2E1PUYMJPiMZBqO62zrA"></script>
+		<!--<script type="text/javascript">
+			var apiEndpoint = "@System.Configuration.ConfigurationManager.AppSettings["serruchoAPIURL"]";
+		</script>-->
   </body>
 </html>
+
+<!-- AutoRest.exe -Namespace SerruchoAPI.SerruchoDataAPI -CodeGenerator CSharp -Modeler Swagger -Input C:\Users\serrucho.json -PackageName SerruchoAPI.SerruchoDataAPI -AddCredentials false -->
