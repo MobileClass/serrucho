@@ -1,62 +1,39 @@
 <ion-view view-title="Mis Restaurantes">
 	<ion-content>
 
-		<div class="card"  ng-click="modal.show()">
-			<a class="item item-avatar item-text-wrap">
-				<img src="img/logo/pizza.png" alt="Dummy" style="border-radius: 0px;">
-				<h3>Pizzarelli</h3>
-				Av. Los Proceres
+		<div class="card" ng-repeat="r in saveRests track by $index">
+			<a class="item item-avatar item-text-wrap"  ng-click="openModal(r.Rest.ID)">
+				<img src="img/logo/{{r.Rest.Logo}}" alt="Dummy" style="border-radius: 0px;">
+				<h3>{{ r.Rest.Name }}</h3>
 			</a>
+			<!--<i ng-if="!isSafe" class="icon ion-bookmark" ng-click="Remove(r.ID)"></i>-->
 		</div>
+		<div ng-if="saveRests.length == 0">No tiene restaurantes guardados.</div>
 
 	</ion-content>
 </ion-view>
 
 <script id="templates/modal_menu.html" type="text/ng-template">
 	<ion-modal-view>
-	<ion-header-bar class="bar bar-header bar-balanced">
-		<h1 class="title">Menu</h1>
-		<button class="button button-clear button-primary" ng-click="modal.hide()">Cerrar</button>
-	</ion-header-bar>
-	<ion-content class="padding">
+		<ion-header-bar class="bar bar-header bar-balanced">
+			<h1 class="title">Menú</h1>
+			<button class="button button-clear button-primary" ng-click="closeModal()">Cerrar</button>
+		</ion-header-bar>
+		<ion-content class="padding">
 
-		<ion-list>
-			<h2>Pizzarelli</h2>
+			<ion-list>
+					<ion-item class="item-divider">
+						<h2>{{ saveRests[items[0].RestaurantID - 1].Rest.Name }}</h2>
+					</ion-item>
+					<ion-item class="item-icon-right" ng-repeat="n in items track by $index">
 
-			<div>
-				<ion-item class="item-divider">
-					<h3>Pizzas</h3>
-				</ion-item>
-				<ion-item class="item-icon-right" >
+						<h3>{{n.Name}}</h3>
+						<p>$ {{n.Price}}</p>
+						<i class="icon ion-plus" ng-click="add(n)"></i>
+					</ion-item>
 
-					<h3>Pizza personal</h3>
-					<p>$250</p>
-				</ion-item>
+			</ion-list>
 
-        <ion-item class="item-icon-right" >
-
-          <h3>Pizza mediana</h3>
-          <p>$500</p>
-        </ion-item>
-
-        <ion-item class="item-icon-right" >
-
-          <h3>Pizza grande</h3>
-          <p>$750</p>
-        </ion-item>
-
-        <ion-item class="item-icon-right" >
-
-          <h3>Calzone</h3>
-          <p>$400</p>
-        </ion-item>
-
-
-      </div>
-
-			<!--<button class="button button-full button-positive" ng-click="acept()">OK</button>-->
-		</ion-list>
-
-	</ion-content>
+		</ion-content>
 	</ion-modal-view>
 </script>

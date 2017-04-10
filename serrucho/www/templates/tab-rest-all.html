@@ -1,37 +1,38 @@
 <ion-view view-title="Todos" ng-controller="AllRestCtrl">
 	<ion-content>
 
-		<div class="card" ng-repeat="r in rests track by $index" ng-click="openModal(r.ID)">
-			<a class="item item-avatar item-text-wrap">
+		<div class="card" ng-repeat="r in rests track by $index">
+			<a class="item item-avatar item-text-wrap" ng-click="openModal(r.ID)">
 				<img src="img/logo/{{r.Logo}}" alt="Dummy" style="border-radius: 0px;">
 				<h3>{{ r.Name }}</h3>
 			</a>
+			<!--<i ng-if="!isSafe" class="icon ion-bookmark" ng-click="save(r.ID)"></i>-->
 		</div>
-		<div ng-if="rests.lenght == 0">No existen Restaurantes en este momento.</div>
+		<div ng-if="rests.length == 0">No existen Restaurantes en este momento.</div>
 	</ion-content>
 </ion-view>
 
 <script id="templates/modal_menu.html" type="text/ng-template">
 	<ion-modal-view>
-	<ion-header-bar class="bar bar-header bar-balanced">
-		<h1 class="title">Menú</h1>
-		<button class="button button-clear button-primary" ng-click="closeModal()">Cerrar</button>
-	</ion-header-bar>
-	<ion-content class="padding">
+		<ion-header-bar class="bar bar-header bar-balanced">
+			<h1 class="title">Menú</h1>
+			<button class="button button-clear button-primary" ng-click="closeModal()">Cerrar</button>
+		</ion-header-bar>
+		<ion-content class="padding">
 
-		<ion-list>
-				<ion-item class="item-divider">
-					<h2>{{ rests[items[0].RestaurantID - 1].Name }}</h2>
-				</ion-item>
-				<ion-item class="item-icon-right" ng-repeat="n in items track by $index">
+			<ion-list>
+					<ion-item class="item-divider">
+						<h2>{{ rests[items[0].RestaurantID - 1].Name }}</h2>
+					</ion-item>
+					<ion-item class="item-icon-right" ng-repeat="n in items track by $index">
 
-					<h3>{{n.Name}}</h3>
-					<p>$ {{n.Price}}</p>
-					<i class="icon ion-plus" ng-click="add()"></i>
-				</ion-item>
+						<h3>{{n.Name}}</h3>
+						<p>$ {{n.Price}}</p>
+						<i class="icon ion-plus" ng-click="add(n)"></i>
+					</ion-item>
 
-		</ion-list>
+			</ion-list>
 
-	</ion-content>
+		</ion-content>
 	</ion-modal-view>
 </script>

@@ -12,8 +12,7 @@
 
     <div class="parrafo">
       <p>
-        Se han unido a la familia serrucho los restaurantes: Gastronomia Mexicana,
-        Madera Steak House, La Plaza del Pollo, Pizzareli, Barra Payan y 7Dips.
+        Se han unido a la familia serrucho los restaurantes: <span ng-repeat="n in restNames">{{n}}, </span>.
       </p>
     </div>
 
@@ -26,6 +25,7 @@
 </ion-view>
 
 <script id="name-input.html" type="text/ng-template">
+
   <ion-popover-view>
     <ion-header-bar>
       <h1 class="title">Enter your Name</h1>
@@ -34,4 +34,5 @@
       <input type="text" id="name" name="name" />
     </ion-content>
   </ion-popover-view>
+  
 </script>

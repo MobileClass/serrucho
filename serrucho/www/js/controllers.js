@@ -1,75 +1,71 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, offers, users, $ionicPopover) {
+.controller('DashCtrl', function($scope, offers, users, allRest, $storage, $ionicPopup) {
 	$scope.offers = [];
 	$scope.userConfig = {};
 	$scope.newName = 'test user';
+	$scope.restNames = [];
 
-	ionic.Platform.ready(function(){
-
-		users.getConfig().success(function (fileUser) {
-			$scope.userConfig = fileUser;
-			var user = {};
-			console.log(fileUser);
-
-			if ($scope.userConfig.ID != 0) {
-				users.getUser($scope.userConfig.ID).success(function (apiUser) {
-					user = apiUser;
-					console.log(apiUser);
-
-					if (!!user || user.ID != $scope.userConfig.ID) {
-						$scope.openPopover();
-						$scope.userConfig = users.postUser($scope.newName);
-						users.updateConfig($scope.userConfig).success();
-					}
-					
-				}).error(function (err) {
-					console.log("No se cargar el usuario del api.");
-				});
-			} else {
-				$scope.openPopover();
-				$scope.userConfig = users.postUser($scope.newName);
-				users.updateConfig($scope.userConfig).success();
-			}
-
+	var userID = $storage.get('ID', 0);
+	
+	if (userID !== 0) {
+		users.getUser(userID).success(function (apiUser) {
+			$scope.userConfig = apiUser;
+			$storage.set('ID', $scope.userConfig.ID);
+			$storage.set('Name', $scope.userConfig.Name);
 		}).error(function (err) {
-			console.log("No se pudo cargar la coniguracion.");
+			console.log("No se cargar el usuario del api.");
 		});
-
-
-		offers.getOffers().success(function (results) {
-			console.log(results);
-			$scope.offers = results;
-		}).error(function (err) {
+	} else if (userID === 0) {
+		$scope.newName = $scope.showPopup();
+		
+		users.postUser($scope.newName).success(function(newuser){ 
+			$scope.userConfig = newuser;
+			$storage.set('ID', $scope.userConfig.ID);
+			$storage.set('Name', $scope.userConfig.Name);
+		}).error(function(err){ 
+			console.log(err);
 		});
+	}
 
-
-		$ionicPopover.fromTemplateUrl('name-input.html', {
-			scope: $scope
-		}).then(function(popover) {
-			$scope.popover = popover;
-		});
-		$scope.openPopover = function($event) {
-			$scope.popover.show($event);
-		};
-		$scope.closePopover = function() {
-			$scope.popover.hide();
-		};
-		//Cleanup the popover when we're done with it!
-		$scope.$on('$destroy', function() {
-			$scope.popover.remove();
-		});
-		// Execute action on hidden popover
-		$scope.$on('popover.hidden', function() {
-			// Execute action
-		});
-		// Execute action on remove popover
-		$scope.$on('popover.removed', function() {
-			// Execute action
-		});
-
-
+	offers.getOffers().success(function (results) {
+		// console.log(results);
+		$scope.offers = results;
+	}).error(function (err) {
 	});
+
+	allRest.getAll().success(function (results) {
+		for (var index = 0; index < results.length; index++) {
+			$scope.restNames[index] = results[index].Name;	
+		}
+	}).error(function (err) {
+	});
+
+	$scope.showPopup = function() {
+		$scope.data = {};
+
+		// An elaborate, custom popup
+		var myPopup = $ionicPopup.show({
+			template: '<input type="text" ng-model="data.name">',
+			title: 'Entre su nombre',
+			// subTitle: 'Please use normal things',
+			scope: $scope,
+			buttons: [
+				{
+					text: '<b>Guardar</b>',
+					type: 'button-positive',
+					onTap: function(e) {
+						if (!$scope.data.name) {
+							//don't allow the user to close unless he enters name
+							e.preventDefault();
+						} else {
+							return $scope.data.name;
+						}
+					}
+				}
+			]
+		});
+	};
 
 })
 
@@ -319,42 +315,52 @@ angular.module('starter.controllers', [])
 
 .controller('MisRestCtrl', function($scope, $ionicModal, myRest) {
 	$scope.saveRests = [];
+	$scope.items = [];
 
-	$scope.$on('$ionicView.enter', function(e) {
+	ionic.Platform.ready(function(){
+		console.log('platforn ready');
+
 		myRest.getSaveRests().success(function (results) {
 			console.log(results);
 			$scope.saveRests = results;
 		}).error(function (err) {
 		});
-	});
 
-	$ionicModal.fromTemplateUrl('templates/modal_menu.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-  $scope.openModal = function() {
-    $scope.modal.show();
-  };
-  $scope.closeModal = function() {
-    $scope.modal.hide();
-  };
-  $scope.acept = function() {
-    $scope.modal.hide();
-  };
-  // Cleanup the modal when we're done with it!
-  $scope.$on('$destroy', function() {
-    $scope.modal.remove();
-  });
-  // Execute action on hide modal
-  $scope.$on('modal.hidden', function() {
-    // Execute action
-  });
-  // Execute action on remove modal
-  $scope.$on('modal.removed', function() {
-    // Execute action
-  });
+		$ionicModal.fromTemplateUrl('templates/modal_menu.html', {
+			scope: $scope,
+			animation: 'slide-in-up'
+		}).then(function(modal) {
+			$scope.modal = modal;
+		});
+		$scope.openModal = function(id) {
+
+			allRest.getMenu(id).success(function (results) {
+				console.log(results);
+				$scope.items = results;
+			}).error(function (err) {
+			});
+
+			$scope.modal.show();
+		};
+		$scope.closeModal = function() {
+			$scope.modal.hide();
+		};
+		$scope.acept = function() {
+			$scope.modal.hide();
+		};
+		// Cleanup the modal when we're done with it!
+		$scope.$on('$destroy', function() {
+			$scope.modal.remove();
+		});
+		// Execute action on hide modal
+		$scope.$on('modal.hidden', function() {
+			// Execute action
+		});
+		// Execute action on remove modal
+		$scope.$on('modal.removed', function() {
+			// Execute action
+		});
+	});
 })
 
 
@@ -379,7 +385,6 @@ angular.module('starter.controllers', [])
 			$scope.modal = modal;
 		});
 		$scope.openModal = function(id) {
-			console.log("OpenModal: "+id);
 
 			allRest.getMenu(id).success(function (results) {
 				console.log(results);
@@ -416,33 +421,49 @@ angular.module('starter.controllers', [])
 
 
 .controller('BillsRestCtrl', function($scope, $ionicModal, bills) {
+	$scope.userBills = [];
+	$scope.items = [];
+
+	bills.getBills().success(function (results) {
+		console.log(results);
+		$scope.userBills = results;
+	}).error(function (err) {
+	});
+
 	$ionicModal.fromTemplateUrl('templates/modal_bill.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-  $scope.openModal = function() {
-    $scope.modal.show();
-  };
-  $scope.closeModal = function() {
-    $scope.modal.hide();
-  };
-  $scope.acept = function() {
-    $scope.modal.hide();
-  };
-  // Cleanup the modal when we're done with it!
-  $scope.$on('$destroy', function() {
-    $scope.modal.remove();
-  });
-  // Execute action on hide modal
-  $scope.$on('modal.hidden', function() {
-    // Execute action
-  });
-  // Execute action on remove modal
-  $scope.$on('modal.removed', function() {
-    // Execute action
-  });
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) {
+		$scope.modal = modal;
+	});
+	$scope.openModal = function(id) {
+
+		userBills.getBillMenu(id).success(function (results) {
+			console.log(results);
+			$scope.items = results;
+		}).error(function (err) {
+		});
+
+		$scope.modal.show();
+	};
+	$scope.closeModal = function() {
+		$scope.modal.hide();
+	};
+	$scope.acept = function() {
+		$scope.modal.hide();
+	};
+	// Cleanup the modal when we're done with it!
+	$scope.$on('$destroy', function() {
+		$scope.modal.remove();
+	});
+	// Execute action on hide modal
+	$scope.$on('modal.hidden', function() {
+		// Execute action
+	});
+	// Execute action on remove modal
+	$scope.$on('modal.removed', function() {
+		// Execute action
+	});
 })
 
 .controller('PresCtrl', function($scope) {})

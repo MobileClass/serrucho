@@ -1,40 +1,39 @@
 <ion-view view-title="Facturas">
 	<ion-content>
 
-		<div class="card" ng-repeat="n in [].constructor(3) track by $index" ng-click="modal.show()">
-			<a class="item item-text-wrap">
-				<h3>Pizza Fulvio</h3>
+		<div class="card" ng-repeat="b in userBills track by $index">
+			<a class="item item-avatar item-text-wrap"  ng-click="openModal(b.ID)">
+				<h3>{{ b.Name }}</h3>
+				<p>Total: {{b.Total}}</p>
 			</a>
+			<i class="icon ion-remove" ng-click="Remove(b.ID)"></i>
 		</div>
+		<div ng-if="userBills.length == 0">No tiene facturas.</div>
 
 	</ion-content>
 </ion-view>
 
 <script id="templates/modal_bill.html" type="text/ng-template">
 	<ion-modal-view>
-	<ion-header-bar class="bar bar-header bar-balanced">
-		<h1 class="title">Factura</h1>
-		<button class="button button-clear button-primary" ng-click="modal.hide()">Cerrar</button>
-	</ion-header-bar>
-	<ion-content class="padding">
-		<ion-list>
+		<ion-header-bar class="bar bar-header bar-balanced">
+			<h1 class="title">Factura</h1>
+			<button class="button button-clear button-primary" ng-click="closeModal()">Cerrar</button>
+		</ion-header-bar>
+		<ion-content class="padding">
 
-			<ion-item class="item-divider">
-				<h3>Elementos</h3>
-			</ion-item>
-			<ion-item class="item-icon-right" ng-repeat="n in [].constructor(2) track by $index">
+			<ion-list>
+					<ion-item class="item-divider">
+						<h2>{{ userBills[items[0].BillID - 1].Name }}</h2>
+					</ion-item>
+					<ion-item class="item-icon-right" ng-repeat="n in items track by $index">
 
-				<h3>Dummy Item</h3>
-				<p>$250</p>
-				<i class="icon ion-minus-circled"></i>
-			</ion-item>
-			<p style="text-align: right;">Total: $500</p>
+						<h3>{{n.ItemName}}</h3>
+						<p>$ {{n.ItemPrice}}</p>
+						<i class="icon ion-plus" ng-click="remove(n)"></i>
+					</ion-item>
 
-			<div class="button-bar">
-				<button class="button button-full button-clear button-assertive" ng-click="acept()">Cancelar</button>
-				<button class="button button-full button-clear button-positive" ng-click="acept()">Gastar</button>
-			</div>
-		</ion-list>
-	</ion-content>
+			</ion-list>
+
+		</ion-content>
 	</ion-modal-view>
 </script>
