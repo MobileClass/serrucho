@@ -1,6 +1,6 @@
 <ion-view view-title="Busqueda"  ng-controller='MapCtrl'>
   <ion-content>
-    <div id="map" data-tap-disabled="true"></div>
-	{{console.log('Map view')}}
+	<div ng-if="showError == true" class="full-screen">No se pudo cargar el mapa</div>
+    <div ng-if="showError == false" id="map" data-tap-disabled="true"></div>
   </ion-content>
 </ion-view>

@@ -1,14 +1,13 @@
 <ion-view view-title="Todos" ng-controller="AllRestCtrl">
 	<ion-content>
 
-		<div class="card" ng-repeat="n in rests track by $index" ng-click="openModal(n.ID)">
+		<div class="card" ng-repeat="r in rests track by $index" ng-click="openModal(r.ID)">
 			<a class="item item-avatar item-text-wrap">
-				<img src="img/thumb.png" alt="Dummy" style="border-radius: 0px;">
-				<h3>{{ n.Name }}</h3>
-				{{ n.Min }} - {{ n.Max }}
+				<img src="img/logo/{{r.Logo}}" alt="Dummy" style="border-radius: 0px;">
+				<h3>{{ r.Name }}</h3>
 			</a>
 		</div>
-
+		<div ng-if="rests.lenght == 0">No existen Restaurantes en este momento.</div>
 	</ion-content>
 </ion-view>
 
@@ -22,7 +21,7 @@
 
 		<ion-list>
 				<ion-item class="item-divider">
-					<h2>{{ rests[items[0].RestaurantID-1].Name }}</h2>
+					<h2>{{ rests[items[0].RestaurantID - 1].Name }}</h2>
 				</ion-item>
 				<ion-item class="item-icon-right" ng-repeat="n in items track by $index">
 
@@ -31,7 +30,6 @@
 					<i class="icon ion-plus" ng-click="add()"></i>
 				</ion-item>
 
-			<!--<button class="button button-full button-positive" ng-click="acept()">OK</button>-->
 		</ion-list>
 
 	</ion-content>

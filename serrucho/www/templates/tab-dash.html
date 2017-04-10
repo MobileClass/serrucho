@@ -20,9 +20,18 @@
     <img id="oferta" src="img/ofertas.png" height="25%" width="100%">
 
     <div>
-      <img class="ofertas" src="img/offer/comida1.png" height="18%" width="100%">
-      <img class="ofertas" src="img/offer/comida2.png" height="18%" width="100%">
-      <img class="ofertas" src="img/offer/comida3.png" height="18%" width="100%">
+      <img ng-repeat="off in offers" class="ofertas" src="img/offer/{{ off.Image }}" height="auto" width="100%" />
     </div>
   </ion-content>
 </ion-view>
+
+<script id="name-input.html" type="text/ng-template">
+  <ion-popover-view>
+    <ion-header-bar>
+      <h1 class="title">Enter your Name</h1>
+    </ion-header-bar>
+    <ion-content>
+      <input type="text" id="name" name="name" />
+    </ion-content>
+  </ion-popover-view>
+</script>
