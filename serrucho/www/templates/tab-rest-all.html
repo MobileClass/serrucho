@@ -6,7 +6,7 @@
 				<img src="img/logo/{{r.Logo}}" alt="Dummy" style="border-radius: 0px;">
 				<h3>{{ r.Name }}</h3>
 			</a>
-			<!--<i ng-if="!isSafe" class="icon ion-bookmark" ng-click="save(r.ID)"></i>-->
+			<i ng-if="!isSave" class="icon ion-bookmark" ng-click="save(r.ID)"></i>
 		</div>
 		<div ng-if="rests.length == 0">No existen Restaurantes en este momento.</div>
 	</ion-content>

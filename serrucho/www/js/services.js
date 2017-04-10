@@ -176,6 +176,12 @@ angular.module('starter.services', [])
     },
     getObject: function(key) {
       return JSON.parse($window.localStorage[key] || '{}');
+    },
+	setTempObject: function(key, value) {
+      $window.sessionStorage.setItem(key, JSON.stringify(value));
+    },
+    getTempObject: function(key) {
+      return JSON.parse($window.sessionStorage.getItem(key) || '{}');
     }
   }
 })

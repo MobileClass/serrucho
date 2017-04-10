@@ -6,7 +6,7 @@
 				<img src="img/logo/{{r.Rest.Logo}}" alt="Dummy" style="border-radius: 0px;">
 				<h3>{{ r.Rest.Name }}</h3>
 			</a>
-			<!--<i ng-if="!isSafe" class="icon ion-bookmark" ng-click="Remove(r.ID)"></i>-->
+			<i class="icon ion-bookmark" ng-click="remove(r.ID)"></i>
 		</div>
 		<div ng-if="saveRests.length == 0">No tiene restaurantes guardados.</div>
 

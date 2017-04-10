@@ -29,8 +29,10 @@
 
 						<h3>{{n.ItemName}}</h3>
 						<p>$ {{n.ItemPrice}}</p>
-						<i class="icon ion-plus" ng-click="remove(n)"></i>
+						<!--<i class="icon ion-plus" ng-click="remove(n)"></i>-->
 					</ion-item>
+
+					<p style="text-align: right;">Total: $ {{ userBills[items[0].BillID].Total }}</p>
 
 			</ion-list>
 

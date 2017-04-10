@@ -290,26 +290,8 @@ angular.module('starter.controllers', [])
 	});
 })
 
-// .controller('ChatsCtrl', function($scope, Chats) {
-//   // With the new view caching in Ionic, Controllers are only called
-//   // when they are recreated or on app start, instead of every page change.
-//   // To listen for when this page is active (for example, to refresh data),
-//   // listen for the $ionicView.enter event:
 
-//   $scope.$on('$ionicView.enter', function(e) {
-//   });
-
-//   $scope.chats = Chats.all();
-//   $scope.remove = function(chat) {
-//     Chats.remove(chat);
-//   };
-// })
-
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-})
+.controller('AccountCtrl', function($scope) {})
 
 .controller('RestCtrl', function($scope) {})
 
@@ -320,10 +302,12 @@ angular.module('starter.controllers', [])
 	ionic.Platform.ready(function(){
 		console.log('platforn ready');
 
-		myRest.getSaveRests().success(function (results) {
-			console.log(results);
-			$scope.saveRests = results;
-		}).error(function (err) {
+		$scope.$on('$ionicView.beforeEnter', function(e) {
+			myRest.getSaveRests().success(function (results) {
+				console.log(results);
+				$scope.saveRests = results;
+			}).error(function (err) {
+			});
 		});
 
 		$ionicModal.fromTemplateUrl('templates/modal_menu.html', {
@@ -348,6 +332,19 @@ angular.module('starter.controllers', [])
 		$scope.acept = function() {
 			$scope.modal.hide();
 		};
+
+		$scope.acept = function() {
+			$scope.modal.hide();
+		};
+
+		$scope.remove = function(id) {
+			myRest.deleteSaveRest(id).success(function (params) { });
+		};
+
+		$scope.add = function(item) {
+			$storage.setTempObject('bill', item);
+		};
+
 		// Cleanup the modal when we're done with it!
 		$scope.$on('$destroy', function() {
 			$scope.modal.remove();
@@ -364,9 +361,10 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('AllRestCtrl', function($scope, $ionicModal, allRest) {
+.controller('AllRestCtrl', function($scope, $ionicModal, allRest, myRest) {
 	$scope.rests = [];
 	$scope.items = [];
+	$scope.isSafe = false;
 
 	ionic.Platform.ready(function(){
 		console.log('platforn ready');
@@ -401,6 +399,16 @@ angular.module('starter.controllers', [])
 		$scope.acept = function() {
 			$scope.modal.hide();
 		};
+
+		$scope.save = function(id) {
+			$scope.isSave = false;
+			myRest.postSaveRest(id).success(function (params) { });
+		};
+
+		$scope.add = function(item) {
+			$storage.setTempObject('bill', item);
+		};
+
 		// Cleanup the modal when we're done with it!
 		$scope.$on('$destroy', function() {
 			$scope.modal.remove();
@@ -419,15 +427,16 @@ angular.module('starter.controllers', [])
 })
 
 
-
 .controller('BillsRestCtrl', function($scope, $ionicModal, bills) {
 	$scope.userBills = [];
 	$scope.items = [];
 
-	bills.getBills().success(function (results) {
-		console.log(results);
-		$scope.userBills = results;
-	}).error(function (err) {
+	$scope.$on('$ionicView.beforeEnter', function(e) {
+		bills.getBills().success(function (results) {
+			console.log(results);
+			$scope.userBills = results;
+		}).error(function (err) {
+		});
 	});
 
 	$ionicModal.fromTemplateUrl('templates/modal_bill.html', {
@@ -466,6 +475,44 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('PresCtrl', function($scope) {})
+.controller('PresCtrl', function($scope, $storage) {
+	$scope.items = $storage.getTempObject('bill');
+
+	$scope.total = function () {
+		var sum = 0;
+
+		if($scope.items.length > 0) {
+			$scope.items.forEach(function(element) {
+				sum += element.ItemPrice;
+			}, this);
+		}
+
+		return sum;
+	}
+
+	$scope.acept = function () {
+		var sum = 0;
+
+		if($scope.items.length > 0) {
+			$scope.items.forEach(function(element) {
+				sum += element.ItemPrice;
+			}, this);
+		}
+
+		return sum;
+	}
+
+	$scope.clean = function () {
+		var sum = 0;
+
+		if($scope.items.length > 0) {
+			$scope.items.forEach(function(element) {
+				sum += element.ItemPrice;
+			}, this);
+		}
+
+		return sum;
+	}
+})
 
 ;
