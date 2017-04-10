@@ -181,7 +181,7 @@ angular.module('starter.services', [])
       $window.sessionStorage.setItem(key, JSON.stringify(value));
     },
     getTempObject: function(key) {
-      return JSON.parse($window.sessionStorage.getItem(key) || '{}');
+      return JSON.parse($window.sessionStorage.getItem(key) || '[{}]');
     }
   }
 })

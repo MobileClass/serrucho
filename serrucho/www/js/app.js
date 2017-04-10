@@ -64,6 +64,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     })
 
 	.state('tab.rest.mis', {
+		cache: false,
         url: '/mis',
         views: {
             'tab-rest-mis': {
@@ -94,6 +95,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     })
 
 	.state('tab.rest.bills', {
+		cache: false,
         url: '/bills',
         views: {
             'tab-rest-bills': {
@@ -119,6 +121,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   })
 
 	.state('tab.pres', {
+		cache: false,
       url: '/pres',
       views: {
         'tab-pres': {

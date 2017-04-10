@@ -7,6 +7,32 @@ angular.module('starter.controllers', [])
 	$scope.restNames = [];
 
 	var userID = $storage.get('ID', 0);
+
+	$scope.showPopup = function() {
+		$scope.data = {};
+
+		// An elaborate, custom popup
+		var myPopup = $ionicPopup.show({
+			template: '<input type="text" ng-model="data.name">',
+			title: 'Entre su nombre',
+			// subTitle: 'Please use normal things',
+			scope: $scope,
+			buttons: [
+				{
+					text: '<b>Guardar</b>',
+					type: 'button-positive',
+					onTap: function(e) {
+						if (!$scope.data.name) {
+							//don't allow the user to close unless he enters name
+							e.preventDefault();
+						} else {
+							return $scope.data.name;
+						}
+					}
+				}
+			]
+		});
+	};
 	
 	if (userID !== 0) {
 		users.getUser(userID).success(function (apiUser) {
@@ -40,32 +66,6 @@ angular.module('starter.controllers', [])
 		}
 	}).error(function (err) {
 	});
-
-	$scope.showPopup = function() {
-		$scope.data = {};
-
-		// An elaborate, custom popup
-		var myPopup = $ionicPopup.show({
-			template: '<input type="text" ng-model="data.name">',
-			title: 'Entre su nombre',
-			// subTitle: 'Please use normal things',
-			scope: $scope,
-			buttons: [
-				{
-					text: '<b>Guardar</b>',
-					type: 'button-positive',
-					onTap: function(e) {
-						if (!$scope.data.name) {
-							//don't allow the user to close unless he enters name
-							e.preventDefault();
-						} else {
-							return $scope.data.name;
-						}
-					}
-				}
-			]
-		});
-	};
 
 })
 
@@ -295,19 +295,17 @@ angular.module('starter.controllers', [])
 
 .controller('RestCtrl', function($scope) {})
 
-.controller('MisRestCtrl', function($scope, $ionicModal, myRest) {
+.controller('MisRestCtrl', function($scope, $ionicModal, myRest, $storage) {
 	$scope.saveRests = [];
 	$scope.items = [];
 
 	ionic.Platform.ready(function(){
 		console.log('platforn ready');
 
-		$scope.$on('$ionicView.beforeEnter', function(e) {
-			myRest.getSaveRests().success(function (results) {
-				console.log(results);
-				$scope.saveRests = results;
-			}).error(function (err) {
-			});
+		myRest.getSaveRests().success(function (results) {
+			console.log(results);
+			$scope.saveRests = results;
+		}).error(function (err) {
 		});
 
 		$ionicModal.fromTemplateUrl('templates/modal_menu.html', {
@@ -361,7 +359,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('AllRestCtrl', function($scope, $ionicModal, allRest, myRest) {
+.controller('AllRestCtrl', function($scope, $ionicModal, allRest, myRest, $storage) {
 	$scope.rests = [];
 	$scope.items = [];
 	$scope.isSafe = false;
@@ -427,17 +425,15 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('BillsRestCtrl', function($scope, $ionicModal, bills) {
+.controller('BillsRestCtrl', function($scope, $ionicModal, bills, $storage) {
 	$scope.userBills = [];
 	$scope.items = [];
 
-	$scope.$on('$ionicView.beforeEnter', function(e) {
 		bills.getBills().success(function (results) {
 			console.log(results);
 			$scope.userBills = results;
 		}).error(function (err) {
 		});
-	});
 
 	$ionicModal.fromTemplateUrl('templates/modal_bill.html', {
 		scope: $scope,
@@ -475,8 +471,13 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('PresCtrl', function($scope, $storage) {
+.controller('PresCtrl', function($scope, $storage, bills) {
 	$scope.items = $storage.getTempObject('bill');
+
+	$scope.serrucho = function () {
+		var cantidad = document.getElementById('amount').value;
+		var text = document.getElementById('recomend').value;
+	}
 
 	$scope.total = function () {
 		var sum = 0;
@@ -491,27 +492,24 @@ angular.module('starter.controllers', [])
 	}
 
 	$scope.acept = function () {
-		var sum = 0;
+		var name = '';
+		name = document.getElementById('billName').value;
+		var itID = [1];
 
-		if($scope.items.length > 0) {
-			$scope.items.forEach(function(element) {
-				sum += element.ItemPrice;
-			}, this);
+		for (var index = 0; index < $scope.items.length; index++) {
+			itID[index] = $scope.items[index].ItemID;
 		}
 
-		return sum;
+		bills.postBill(0, name, $scope.total(), itID)
+			.success(function (params) {});
+
+		$scope.items = [];
+		$storage.getTempObject('bill', $scope.items);
 	}
 
 	$scope.clean = function () {
-		var sum = 0;
-
-		if($scope.items.length > 0) {
-			$scope.items.forEach(function(element) {
-				sum += element.ItemPrice;
-			}, this);
-		}
-
-		return sum;
+		$scope.items = [];
+		$storage.getTempObject('bill', $scope.items);
 	}
 })
 

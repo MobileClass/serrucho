@@ -23,7 +23,7 @@
 			<div class="input-label">
 				Precio
 			</div>
-			<input type="number" placeholder="RD$" />
+			<input type="number" placeholder="RD$" id="amount" />
 		</label>
 	</div>
 
@@ -31,7 +31,7 @@
 		<input type="text" id="recomend" />
 	</label>
 
-	<button class="button button-block button-positive" ng-click="">Serrucho</button>
+	<button class="button button-block button-positive" ng-click="serrucho()">Serrucho</button>
 
 	<ion-list>
 			<ion-item class="item-icon-right" ng-repeat="n in items track by $index">
