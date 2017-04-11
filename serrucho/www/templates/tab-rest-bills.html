@@ -1,12 +1,12 @@
 <ion-view view-title="Facturas">
 	<ion-content>
 
-		<div class="card" ng-repeat="b in userBills track by $index">
+		<div class="card item item-icon-right" ng-repeat="b in userBills track by $index">
 			<a class="item item-avatar item-text-wrap"  ng-click="openModal(b.ID)">
 				<h3>{{ b.Name }}</h3>
 				<p>Total: {{b.Total}}</p>
 			</a>
-			<i class="icon ion-remove" ng-click="Remove(b.ID)"></i>
+			<i class="icon item ion-remove" ng-click="remove(b.ID)"></i>
 		</div>
 		<div ng-if="userBills.length == 0">No tiene facturas.</div>
 
@@ -32,7 +32,7 @@
 						<!--<i class="icon ion-plus" ng-click="remove(n)"></i>-->
 					</ion-item>
 
-					<p style="text-align: right;">Total: $ {{ userBills[items[0].BillID].Total }}</p>
+					<p style="text-align: right;">Total: $ {{ total }}</p>
 
 			</ion-list>
 

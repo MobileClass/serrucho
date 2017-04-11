@@ -35,16 +35,23 @@
 
 	<ion-list>
 			<ion-item class="item-icon-right" ng-repeat="n in items track by $index">
-				<h3>{{n.ItemName}}</h3>
-				<p>$ {{n.ItemPrice}}</p>
+				<h3>{{n.Name}}</h3>
+				<p>$ {{n.Price}}</p>
 				<!--<i class="icon ion-plus" ng-click="remove(n)"></i>-->
 			</ion-item>
 			<ion-item ng-if="items.legth == 0" class="item-icon-right">
 				<p>No tiene ningún item en su factura.</p>
 			</ion-item>
 
-			<p style="text-align: right;">Total: {{total()}}</p>
-			<input type="text" id="billName" />
+			<p style="text-align: right;">Total: $ {{total()}}</p>
+
+			<label class="item item-input">
+				<div class="input-label">
+					Nombre
+				</div>
+				<input type="text" id="billName" placeholder="Nombre de la factura" value="Factura"/>
+			</label>
+			
 			<div class="button-bar">
 				<button class="button button-full button-clear button-assertive" ng-click="clean()">Cancelar</button>
 				<button class="button button-full button-clear button-positive" ng-click="acept()">Gastar</button>

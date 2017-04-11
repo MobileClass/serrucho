@@ -1,12 +1,12 @@
 <ion-view view-title="Mis Restaurantes">
 	<ion-content>
 
-		<div class="card" ng-repeat="r in saveRests track by $index">
+		<div class="card item item-icon-right" ng-repeat="r in saveRests track by $index">
 			<a class="item item-avatar item-text-wrap"  ng-click="openModal(r.Rest.ID)">
 				<img src="img/logo/{{r.Rest.Logo}}" alt="Dummy" style="border-radius: 0px;">
 				<h3>{{ r.Rest.Name }}</h3>
 			</a>
-			<i class="icon ion-bookmark" ng-click="remove(r.ID)"></i>
+			<i class="icon item ion-bookmark" ng-click="remove(r.Rest.ID)"></i>
 		</div>
 		<div ng-if="saveRests.length == 0">No tiene restaurantes guardados.</div>
 

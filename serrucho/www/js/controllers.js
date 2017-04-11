@@ -290,20 +290,20 @@ angular.module('starter.controllers', [])
 	});
 })
 
-
 .controller('AccountCtrl', function($scope) {})
 
 .controller('RestCtrl', function($scope) {})
 
-.controller('MisRestCtrl', function($scope, $ionicModal, myRest, $storage) {
+.controller('MisRestCtrl', function($scope, $ionicModal, allRest, myRest, $storage, $ionicPopup) {
 	$scope.saveRests = [];
 	$scope.items = [];
+	$scope.bill = $storage.getTempObject('bill');
 
 	ionic.Platform.ready(function(){
-		console.log('platforn ready');
+		// console.log('platforn ready');
 
 		myRest.getSaveRests().success(function (results) {
-			console.log(results);
+			// console.log(results);
 			$scope.saveRests = results;
 		}).error(function (err) {
 		});
@@ -317,7 +317,7 @@ angular.module('starter.controllers', [])
 		$scope.openModal = function(id) {
 
 			allRest.getMenu(id).success(function (results) {
-				console.log(results);
+				// console.log(results);
 				$scope.items = results;
 			}).error(function (err) {
 			});
@@ -336,11 +336,13 @@ angular.module('starter.controllers', [])
 		};
 
 		$scope.remove = function(id) {
-			myRest.deleteSaveRest(id).success(function (params) { });
+			myRest.deleteSaveRest(id).success(function (params) { }).error(function (params) { });
 		};
 
 		$scope.add = function(item) {
-			$storage.setTempObject('bill', item);
+			$scope.bill.push(item);
+			$storage.setTempObject('bill', $scope.bill);
+			console.log($storage.getTempObject('bill'));
 		};
 
 		// Cleanup the modal when we're done with it!
@@ -358,20 +360,20 @@ angular.module('starter.controllers', [])
 	});
 })
 
-
-.controller('AllRestCtrl', function($scope, $ionicModal, allRest, myRest, $storage) {
+.controller('AllRestCtrl', function($scope, $ionicModal, allRest, myRest, $storage, $ionicPopup) {
 	$scope.rests = [];
 	$scope.items = [];
-	$scope.isSafe = false;
+	$scope.isSave = false;
+	$scope.bill = $storage.getTempObject('bill');
 
 	ionic.Platform.ready(function(){
-		console.log('platforn ready');
+		// console.log('platforn ready');
 		
 		allRest.getAll().success(function (results) {
-			console.log(results);
+			// console.log(results);
 			$scope.rests = results;
 		}).error(function (err) {
-			console.log(err);
+			// console.log(err);
 		});
 
 		$ionicModal.fromTemplateUrl('templates/modal_menu.html', {
@@ -383,7 +385,7 @@ angular.module('starter.controllers', [])
 		$scope.openModal = function(id) {
 
 			allRest.getMenu(id).success(function (results) {
-				console.log(results);
+				// console.log(results);
 				$scope.items = results;
 			}).error(function (err) {
 			});
@@ -404,7 +406,9 @@ angular.module('starter.controllers', [])
 		};
 
 		$scope.add = function(item) {
-			$storage.setTempObject('bill', item);
+			$scope.bill.push(item);
+			$storage.setTempObject('bill', $scope.bill);
+			console.log($storage.getTempObject('bill'));
 		};
 
 		// Cleanup the modal when we're done with it!
@@ -424,15 +428,16 @@ angular.module('starter.controllers', [])
   
 })
 
-
-.controller('BillsRestCtrl', function($scope, $ionicModal, bills, $storage) {
+.controller('BillsRestCtrl', function($scope, $ionicModal, bills, $storage, $ionicPopup) {
 	$scope.userBills = [];
 	$scope.items = [];
+	$scope.total = 0;
 
 		bills.getBills().success(function (results) {
-			console.log(results);
+			// console.log(results);
 			$scope.userBills = results;
 		}).error(function (err) {
+			
 		});
 
 	$ionicModal.fromTemplateUrl('templates/modal_bill.html', {
@@ -443,12 +448,16 @@ angular.module('starter.controllers', [])
 	});
 	$scope.openModal = function(id) {
 
-		userBills.getBillMenu(id).success(function (results) {
-			console.log(results);
+		bills.getBillMenu(id).success(function (results) {
+			// console.log(results);
 			$scope.items = results;
+
+			for (var index = 0; index < $scope.items.length; index++) {
+				$scope.total += $scope.items[index].ItemPrice;
+			}
 		}).error(function (err) {
 		});
-
+		
 		$scope.modal.show();
 	};
 	$scope.closeModal = function() {
@@ -457,6 +466,15 @@ angular.module('starter.controllers', [])
 	$scope.acept = function() {
 		$scope.modal.hide();
 	};
+
+	$scope.remove = function(id) {
+		bills.deleteBill(id).success(function (params) {
+			
+		}).error(function (params) {
+			
+		});
+	};
+
 	// Cleanup the modal when we're done with it!
 	$scope.$on('$destroy', function() {
 		$scope.modal.remove();
@@ -471,9 +489,10 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('PresCtrl', function($scope, $storage, bills) {
+.controller('PresCtrl', function($scope, $storage, bills, $ionicPopup) {
 	$scope.items = $storage.getTempObject('bill');
-
+	console.log($storage.getTempObject('bill'));
+	
 	$scope.serrucho = function () {
 		var cantidad = document.getElementById('amount').value;
 		var text = document.getElementById('recomend').value;
@@ -482,9 +501,9 @@ angular.module('starter.controllers', [])
 	$scope.total = function () {
 		var sum = 0;
 
-		if($scope.items.length > 0) {
+		if($scope.items.length > 0 && !!$storage.getTempObject('bill')[0].ID) {
 			$scope.items.forEach(function(element) {
-				sum += element.ItemPrice;
+				sum += element.Price;
 			}, this);
 		}
 
@@ -492,24 +511,37 @@ angular.module('starter.controllers', [])
 	}
 
 	$scope.acept = function () {
-		var name = '';
-		name = document.getElementById('billName').value;
 		var itID = [1];
+		console.log($storage.getTempObject('bill'));
 
-		for (var index = 0; index < $scope.items.length; index++) {
-			itID[index] = $scope.items[index].ItemID;
+		if (!!$storage.getTempObject('bill')[0].ID) {
+			for (var index = 0; index < $scope.items.length; index++) {
+				itID[index] = $scope.items[index].ID;
+			}
+			console.log('Enter post bill');
+
+			bills.postBill(0, document.getElementById('billName').value, $scope.total(), itID)
+				.success(function (params) {
+					$scope.items = [];
+					$storage.setTempObject('bill', $scope.items);
+				}).error(function (err) {
+					$scope.items = [];
+					$storage.setTempObject('bill', $scope.items);
+				});
+
+		} else {
+			$ionicPopup.alert({
+				title: "Error en la factura",
+				cssClass: "background-color: #4BAF33",
+				content: 'La factura no es valida.'
+			});
 		}
-
-		bills.postBill(0, name, $scope.total(), itID)
-			.success(function (params) {});
-
-		$scope.items = [];
-		$storage.getTempObject('bill', $scope.items);
 	}
 
 	$scope.clean = function () {
 		$scope.items = [];
-		$storage.getTempObject('bill', $scope.items);
+		$storage.setTempObject('bill', $scope.items);
+		console.log($storage.getTempObject('bill'));
 	}
 })
 

@@ -1,12 +1,12 @@
 <ion-view view-title="Todos" ng-controller="AllRestCtrl">
 	<ion-content>
 
-		<div class="card" ng-repeat="r in rests track by $index">
+		<div class="card item item-icon-right" ng-repeat="r in rests track by $index">
 			<a class="item item-avatar item-text-wrap" ng-click="openModal(r.ID)">
 				<img src="img/logo/{{r.Logo}}" alt="Dummy" style="border-radius: 0px;">
 				<h3>{{ r.Name }}</h3>
 			</a>
-			<i ng-if="!isSave" class="icon ion-bookmark" ng-click="save(r.ID)"></i>
+			<i ng-if="!isSave" class="item icon ion-bookmark" ng-click="save(r.ID)"></i>
 		</div>
 		<div ng-if="rests.length == 0">No existen Restaurantes en este momento.</div>
 	</ion-content>
