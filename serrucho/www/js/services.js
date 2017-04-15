@@ -81,12 +81,12 @@ angular.module('starter.services', [])
 			return $http.get(apiEndpoint + '/api/SaveRestaurants/' + userConfig);
 		},
 		postSaveRest : function(restId){
-			return $http.post(apiEndpoint + '/api/SaveRestaurants/' + userConfig + '/' + restId);
+			return $http.post(apiEndpoint + '/api/SaveRestaurants/' + userConfig + '/restaurant/' + restId);
 		},
 		deleteSaveRest : function(restId){
 			return $http({
 				method: 'DELETE',
-				url: apiEndpoint + '/api/SaveRestaurants/' + userConfig + '/' + restId
+				url: apiEndpoint + '/api/SaveRestaurants/' + userConfig + '/restaurant/' + restId
 			});
 		}
 	};
@@ -108,7 +108,7 @@ angular.module('starter.services', [])
 			return $http.get(apiEndpoint + '/api/Bills/' + userConfig);
 		},
 		postBill : function(id, name, total, items){
-			return $http.post(apiEndpoint + '/api/Bills/' + id + '/' + userConfig + '/' + name + '/' + total, items);
+			return $http.post(apiEndpoint + '/api/Bills/' + id + '/user/' + userConfig + '/name/' + name + '/total/' + total, items);
 		},
 		putBill : function(item){
 			return $http.put(apiEndpoint + '/api/Bills/' + item.id, item);
@@ -123,12 +123,12 @@ angular.module('starter.services', [])
 			return $http.get(apiEndpoint + '/api/BillMenu/' + id);
 		},
 		postBillMenu : function(id, billId, menuId){
-			return $http.post(apiEndpoint + '/api/BillMenu/' + id + '/' + billId + '/' + menuId);
+			return $http.post(apiEndpoint + '/api/BillMenu/' + id + '/bill/' + billId + '/item/' + menuId);
 		},
 		deleteBillMenu : function(billId, menuId){
 			return $http({
 				method: 'DELETE',
-				url: apiEndpoint + '/api/BillMenu/' + billId + '/' + menuId
+				url: apiEndpoint + '/api/BillMenu/' + billId + '/item/' + menuId
 			});
 		}
 	};
